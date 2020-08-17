@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction= fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_view, new TabFragment()).commit();
 
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
