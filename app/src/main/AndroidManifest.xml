@@ -9,7 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".UpdateCartListActivity"></activity>
+        <activity android:name=".ShoppingCartActivity" />
+        <activity android:name=".ProductDetailsActivity" />
+        <activity android:name=".InsertProduct" />
+        <activity
+            android:name=".HomeFragment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ShoppingCartFragment" />
+        <activity android:name=".CategoriesFragment" />
+        <activity android:name=".MenCatagoriesFragment" />
+        <activity android:name=".ProductAddToCartFragment" />
+        <activity android:name=".WomenCatogoriesFragment" />
+        <activity android:name=".MyAccountFragment" />
+        <activity android:name=".AppSettingsFragment" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
