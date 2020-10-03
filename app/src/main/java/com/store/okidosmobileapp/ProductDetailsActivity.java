@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.store.okidosmobileapp.Prevalent.Prevalent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private String addToCartProductID = "";
     CartList cartList;
     private String Cartkey;
+    private String userKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,6 +52,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         addToCartProductName = (TextView) findViewById(R.id.addtocart_product_name);
         addtoCartProductDescription = (TextView) findViewById(R.id.addtocart_product_description);
         addToCartProductPrice = (TextView) findViewById(R.id.addtocart_product_price);
+
+        userKey = Prevalent.CurrentOnlineUser.getPhone();
 
         getProductDetails(addToCartProductID);
 
@@ -90,7 +94,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         cartList.setCartItemPrice(addToCartProductPrice.getText().toString().trim());
         cartList.setCartItemQuantity(addToCartNumberButton.getNumber());
 
-        CartListRef.child(Cartkey).setValue(cartList);
+        CartListRef.child(userKey).child(Cartkey).setValue(cartList);
 
         Toast.makeText(ProductDetailsActivity.this, "Product added to Cart", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ProductDetailsActivity.this, HomeFragment.class);

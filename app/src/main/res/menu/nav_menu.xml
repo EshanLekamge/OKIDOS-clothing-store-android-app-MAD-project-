@@ -11,14 +11,21 @@
                 android:id="@+id/cart"
                 android:icon="@drawable/shoppingcart_nav"
                 android:title="CART" />
+
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/feedback_vector"
+                android:title="FEEDBACK"/>
+
             <item
                 android:id="@+id/account"
                 android:icon="@drawable/useraccount_nav"
                 android:title="MY ACCOUNT"/>
             <item
-                android:id="@+id/settings"
-                android:icon="@drawable/settings_nav"
-                android:title="APP SETTINGS" />
+                android:id="@+id/logout"
+                android:icon="@drawable/logout_vector"
+                android:title="LOGOUT" />
+
 
         </menu>
     </item>

@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.store.okidosmobileapp.Prevalent.Prevalent;
 import com.store.okidosmobileapp.ViewHolder.CartViewHolder;
 
 public class ShoppingCartActivity extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     private TextView TotalShoppingCartPrice;
     String cartItemPrice;
     String cartItemQty;
+    String userKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,15 @@ public class ShoppingCartActivity extends AppCompatActivity {
         PayNowbutton = findViewById(R.id.pay_now_button);
         TotalShoppingCartPrice = findViewById(R.id.total_products_price);
 
+        userKey = Prevalent.CurrentOnlineUser.getPhone();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        final DatabaseReference CartListRef = FirebaseDatabase.getInstance().getReference().child("CartList");
+        final DatabaseReference CartListRef = FirebaseDatabase.getInstance().getReference().child("CartList").child(userKey);
 
         FirebaseRecyclerOptions<CartList> options = new FirebaseRecyclerOptions.Builder<CartList>().setQuery(CartListRef, CartList.class).build();
 

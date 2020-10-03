@@ -98,12 +98,19 @@ public class HomeFragment extends AppCompatActivity {
                     startActivity(intent);
 
                 }
-                if (item.getItemId() == R.id.settings) {
+                if (item.getItemId() == R.id.logout) {
 
-                    Intent intent = new Intent(HomeFragment.this, AppSettingsFragment.class);
+                    Intent intent = new Intent(HomeFragment.this, MainActivity.class);
                     startActivity(intent);
 
                 }
+                if (item.getItemId() == R.id.feedback) {
+
+                    Intent intent = new Intent(HomeFragment.this, FeedBackActivity.class);
+                    startActivity(intent);
+
+                }
+
                 return true;
             }
         });
