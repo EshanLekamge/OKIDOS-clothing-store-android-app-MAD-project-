@@ -1,5 +1,6 @@
 package com.store.okidosmobileapp;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,8 +11,20 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+//    @Test
+//    public void addition_isCorrect() {
+//        assertEquals(4, 2 + 2);
+//    }
+
+    private Admin_InsertProduct admin_insertProduct;
+
+    @Before
+    public void setup(){
+        admin_insertProduct = new Admin_InsertProduct();
+    }
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void insertFieldEmpty(){
+        Boolean result = admin_insertProduct.ValidateProductData();
+        assertEquals(true,result);
     }
 }
