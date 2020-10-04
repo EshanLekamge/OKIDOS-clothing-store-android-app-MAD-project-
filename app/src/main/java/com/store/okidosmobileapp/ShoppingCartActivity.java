@@ -97,7 +97,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
                 Double totPrice = qty*price;
 
-                overallTotalPrice = overallTotalPrice+totPrice;
+                overallTotalPrice = overallTotalPrice + totPrice;
 
                 holder.txtShoppingCartProductTotPrice.setText("Total Price = Lkr "+totPrice.toString());
 
