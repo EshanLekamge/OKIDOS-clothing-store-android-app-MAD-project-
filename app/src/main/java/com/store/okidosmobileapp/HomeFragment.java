@@ -110,6 +110,12 @@ public class HomeFragment extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+                if (item.getItemId() == R.id.ordersNav) {
+
+                    Intent intent = new Intent(HomeFragment.this, OrderListActivity.class);
+                    startActivity(intent);
+
+                }
 
                 return true;
             }

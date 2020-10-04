@@ -34,6 +34,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
     String cartItemPrice;
     String cartItemQty;
     String userKey;
+    private double overallTotalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,24 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
         PayNowbutton = findViewById(R.id.pay_now_button);
         TotalShoppingCartPrice = findViewById(R.id.total_products_price);
-
         userKey = Prevalent.CurrentOnlineUser.getPhone();
+
+
+
+        PayNowbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TotalShoppingCartPrice.setText("Total Price = Rs"+String.valueOf(overallTotalPrice));
+
+                Intent intent = new Intent(ShoppingCartActivity.this,ConfirmFinalOrderActivity.class);
+                intent.putExtra("TotalPrice", String.valueOf(overallTotalPrice));
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
 
     }
 
@@ -70,6 +87,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 holder.txtShoppingCartProductCategory.setText(model.getCartItemCategory());
                 holder.txtShoppingCartProductPrice.setText("Item Price = Lkr "+model.getCartItemPrice());
 
+
+
                 cartItemPrice = model.getCartItemPrice();
                 cartItemQty = model.getCartItemQuantity();
 
@@ -77,6 +96,8 @@ public class ShoppingCartActivity extends AppCompatActivity {
                 Double price = Double.parseDouble(cartItemPrice);
 
                 Double totPrice = qty*price;
+
+                overallTotalPrice = overallTotalPrice + totPrice;
 
                 holder.txtShoppingCartProductTotPrice.setText("Total Price = Lkr "+totPrice.toString());
 

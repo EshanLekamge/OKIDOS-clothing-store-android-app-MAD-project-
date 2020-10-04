@@ -30,6 +30,9 @@ import com.squareup.picasso.Picasso;
 import com.store.okidosmobileapp.Prevalent.Prevalent;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class MyAccountFragment extends AppCompatActivity {
 
@@ -166,9 +169,16 @@ public class MyAccountFragment extends AppCompatActivity {
         {
             Toast.makeText(this, "Phone Number must be Entered", Toast.LENGTH_SHORT).show();
         }
+        else if(!(isValidPhone(userPhoneEditText.getText().toString()))){
+            Toast.makeText(this, "Enter Valid Contact Number", Toast.LENGTH_SHORT).show();
+        }
         else if(TextUtils.isEmpty(passwordEditText.getText().toString()))
         {
             Toast.makeText(this, "Password must be Entered", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(isValidPassword(passwordEditText.getText().toString()))){
+            Toast.makeText(this, "Password is not Strong Enough", Toast.LENGTH_SHORT).show();
+
         }
         else if(checker.equals("clicked"))
         {
@@ -281,6 +291,33 @@ public class MyAccountFragment extends AppCompatActivity {
             }
         });
 
+    }
+    public static boolean isValidPassword(String password)
+    {
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=.*[@#$%^&+=])"
+                + "(?=\\S+$).{8,20}$";
+
+
+        Pattern p = Pattern.compile(regex);
+
+
+        if (password == null) {
+            return false;
+        }
+
+
+        Matcher m = p.matcher(password);
+
+
+        return m.matches();
+    }
+    public static boolean isValidPhone(String s)
+    {
+        Pattern p = Pattern.compile("(0/94)?[0-9]{10}");
+        Matcher m = p.matcher(s);
+        return (m.find() && m.group().equals(s));
     }
 
 }

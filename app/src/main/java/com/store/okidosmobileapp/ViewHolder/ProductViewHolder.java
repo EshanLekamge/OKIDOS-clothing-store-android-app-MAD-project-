@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.store.okidosmobileapp.Interface.ItemClickListner;
+
 import com.store.okidosmobileapp.R;
 
 public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener

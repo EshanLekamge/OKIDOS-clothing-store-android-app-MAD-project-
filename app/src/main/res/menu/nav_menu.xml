@@ -11,6 +11,10 @@
                 android:id="@+id/cart"
                 android:icon="@drawable/shoppingcart_nav"
                 android:title="CART" />
+            <item
+                android:id="@+id/ordersNav"
+                android:icon="@drawable/buynow"
+                android:title="ORDERS" />
 
             <item
                 android:id="@+id/feedback"
