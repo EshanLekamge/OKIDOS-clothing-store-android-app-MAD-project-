@@ -80,6 +80,8 @@ public class Admin_InsertProduct extends AppCompatActivity {
         awesomeValidation.addValidation(this,R.id.txt_product_category, RegexTemplate.NOT_EMPTY,R.string.invalid_category);
 
 
+
+
 //        String pattern = "([0-9]{5})(\\.)([0-2]{2})"; // 4 digits followe by . followed by 2 digits
 //        Pattern r = Pattern.compile(pattern);
 //        Matcher m = r.matcher((CharSequence) product_price);
@@ -106,6 +108,10 @@ public class Admin_InsertProduct extends AppCompatActivity {
         addProductsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(TextUtils.isEmpty(product_price.getText().toString())){
+                    Toast.makeText(Admin_InsertProduct.this, "No empty field allowed", Toast.LENGTH_SHORT).show();
+                }
 
                 if(awesomeValidation.validate()){
                     Toast.makeText(getApplicationContext(), "Form Validate Successfully..", Toast.LENGTH_SHORT).show();
@@ -146,9 +152,9 @@ public class Admin_InsertProduct extends AppCompatActivity {
         }
     }
 
-    private void ValidateProductData()
-    {
 
+    public Boolean ValidateProductData()
+    {
         pname = product_name.getText().toString();
         pdescription = product_description.getText().toString();
         pgender = product_gender.getText().toString();
@@ -158,31 +164,40 @@ public class Admin_InsertProduct extends AppCompatActivity {
         if(ImageUri == null)
         {
             Toast.makeText(this,"Product image is mandatory...", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else if (TextUtils.isEmpty(pname))
         {
             Toast.makeText(this,"Enter Product Name", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else if (TextUtils.isEmpty(pdescription))
         {
             Toast.makeText(this,"Enter Product Description", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else if (TextUtils.isEmpty(pgender))
         {
             Toast.makeText(this,"Enter Product Gender", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else if (TextUtils.isEmpty(pcategory))
         {
             Toast.makeText(this,"Enter Product Category", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else if (TextUtils.isEmpty(pprice))
         {
             Toast.makeText(this,"Enter Product Price", Toast.LENGTH_SHORT).show();
+            return false;
         }
         else
         {
             StoreProductInformation();
+            return true;
+
         }
+
 
     }
 
