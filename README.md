@@ -1,4 +1,4 @@
-# OKIDOS-NEW-APP
+# OKIDOS-NEW-APP -----!Please Read!-----
 
 Fully Working Integrated App is in the InteGratedAPP Branch.
 https://github.com/EshanLekamge/OKIDOS-clothing-store-android-app-MAD-project-/tree/InteGratedAPP
