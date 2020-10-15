@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Admin_HomeFragment"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Admin_InsertProduct"></activity>
         <activity android:name=".Admin_MainActivity"></activity>
         <activity android:name=".Admin_ProductDetailsActivity"></activity>

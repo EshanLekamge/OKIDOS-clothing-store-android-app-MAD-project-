@@ -79,7 +79,13 @@ public class Admin_HomeFragment extends AppCompatActivity {
                 }
                 if (item.getItemId() == R.id.admin_account) {
 
-                    Intent intent = new Intent(Admin_HomeFragment.this, MyAccountFragment.class);
+                    Intent intent = new Intent(Admin_HomeFragment.this, Admin_InsertProduct.class);
+                    startActivity(intent);
+
+                }
+                if (item.getItemId() == R.id.admin_logout) {
+
+                    Intent intent = new Intent(Admin_HomeFragment.this, LoginActivity.class);
                     startActivity(intent);
 
                 }
