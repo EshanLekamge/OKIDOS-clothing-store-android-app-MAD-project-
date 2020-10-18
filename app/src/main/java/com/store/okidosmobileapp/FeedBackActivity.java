@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,97 +19,131 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.store.okidosmobileapp.Model.FeedBack;
 import com.store.okidosmobileapp.Prevalent.Prevalent;
 
+import java.util.Objects;
+
 public class FeedBackActivity extends AppCompatActivity {
-    private Button btn;
+
+    EditText txtEmail, txtName, txtFeedback;
+    Button butSave, butShow, butUpdate, butDelete;
+    DatabaseReference dbRef;
+    FeedBack feedBack;
+
     private String userKey;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_back);
 
+        setContentView(R.layout.send_feedback);
+
+        txtEmail = findViewById(R.id.edtEmail);
+        txtName = findViewById(R.id.edtName);
+        txtFeedback = findViewById(R.id.edtFeedback);
+
+        butSave = findViewById(R.id.butSave);
+        butShow = findViewById(R.id.butShow);
+        butUpdate = findViewById(R.id.butUpdate);
+        butDelete = findViewById(R.id.butDelete);
+
+
+        feedBack = new FeedBack();
         userKey = Prevalent.CurrentOnlineUser.getPhone();
-        btn=findViewById(R.id.btnMainActivity);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        dbRef = FirebaseDatabase.getInstance().getReference().child("FeedBack").child(userKey);
+
+
+        butDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog();
+                //dbRef = FirebaseDatabase.getInstance().getReference().child("Customer").child("cus1");
+                dbRef.removeValue();
+                Toast.makeText(getApplicationContext(), "Successfully deleted", Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    private void showDialog(){
-        final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
-        dialog.setTitle("Feedback Form");
-        dialog.setMessage("Provide us your valuable feedback");
-
-        LayoutInflater inflater=LayoutInflater.from(this);
-        View reg_layout=inflater.inflate(R.layout.send_feedback,null);
-
-        final MaterialEditText edtEmail=reg_layout.findViewById(R.id.edtEmail);
-        final MaterialEditText edtName=reg_layout.findViewById(R.id.edtName);
-        final MaterialEditText edtFeedback=reg_layout.findViewById(R.id.edtFeedback);
-
-        dialog.setView(reg_layout);
-
-        //set button
-
-        dialog.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
+        butUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(View view) {
+                feedBack.setName(txtName.getText().toString().trim());
+                feedBack.setEmail(txtEmail.getText().toString().trim());
+                feedBack.setFeedback(txtFeedback.getText().toString().trim());
+                //dbRef = FirebaseDatabase.getInstance().getReference();
+                //dbRef.child("Customer").child("cus1").child("email").setValue(txtEmail.getText().toString().trim());
+                //dbRef.child("Customer/cus1/feedback").setValue(txtFeedback.getText().toString().trim());
+                dbRef.setValue(feedBack);
 
-                //check validation
+                Toast.makeText(getApplicationContext(), "Successfully updated", Toast.LENGTH_SHORT).show();
+                clearControls();
 
-                if (TextUtils.isEmpty(edtEmail.getText().toString())){
-                    Toast.makeText(FeedBackActivity.this, "Please enter your email...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            }
+        });
 
-                if (TextUtils.isEmpty(edtName.getText().toString())){
-                    Toast.makeText(FeedBackActivity.this, "Name field cannot be empty...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(edtFeedback.getText().toString())){
-                    Toast.makeText(FeedBackActivity.this, "Feedback field cannot be empty...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                FirebaseDatabase database=FirebaseDatabase.getInstance();
-
-                DatabaseReference myRef=database.getReference();
-
-                myRef.addValueEventListener(new ValueEventListener() {
+        butShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //dbRef = FirebaseDatabase.getInstance().getReference().child("Customer/cus1");
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Object value=dataSnapshot.getValue();
+                        if (dataSnapshot.hasChildren()) {
+                            txtEmail.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString());
+                            txtName.setText(Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString());
+                            txtFeedback.setText(Objects.requireNonNull(dataSnapshot.child("feedback").getValue()).toString());
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Cannot find cus1", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(FeedBackActivity.this, "Failed to read value", Toast.LENGTH_SHORT).show();
 
                     }
                 });
-
-                myRef.child("FeedBack").child(userKey).child(edtName.getText().toString()).child("Email").setValue(edtEmail.getText().toString());
-                myRef.child("FeedBack").child(userKey).child(edtName.getText().toString()).child("Feedback").setValue(edtFeedback.getText().toString());
-                myRef.child("FeedBack").child(userKey).child(edtName.getText().toString()).child("Name").setValue(edtName.getText().toString());
-
-                Toast.makeText(FeedBackActivity.this, "Thanks for your feedback..", Toast.LENGTH_SHORT).show();
             }
         });
 
-        dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        butSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
+            public void onClick(View view) {
+                //dbRef = FirebaseDatabase.getInstance().getReference().child("FeedBack");
+                //dbRef.setValue(feedBack);
+                try {
+                    if (TextUtils.isEmpty(txtEmail.getText().toString()))
+                        Toast.makeText(getApplicationContext(), "Empty email", Toast.LENGTH_SHORT).show();
+                    else if (TextUtils.isEmpty(txtName.getText().toString()))
+                        Toast.makeText(getApplicationContext(), "Empty name", Toast.LENGTH_SHORT).show();
+                    else if (TextUtils.isEmpty(txtFeedback.getText().toString()))
+                        Toast.makeText(getApplicationContext(), "Empty feedback", Toast.LENGTH_SHORT).show();
+                    else {
+                        feedBack.setEmail(txtEmail.getText().toString().trim());
+                        feedBack.setName(txtName.getText().toString().trim());
+                        feedBack.setFeedback(txtFeedback.getText().toString().trim());
+                        dbRef.setValue(feedBack);
+                        Toast.makeText(getApplicationContext(), "Successfully inserted", Toast.LENGTH_SHORT).show();
+                        clearControls();
+                    }
+                }
+                catch (NumberFormatException e){
+
+                }
             }
         });
-
-        dialog.show();
     }
-}
+
+    private void clearControls(){
+        txtEmail.setText("");
+        txtName.setText("");
+        txtFeedback.setText("");
+    }
+
+
+
+
+
+    }
