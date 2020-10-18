@@ -47,6 +47,7 @@ public class MyAccountFragment extends AppCompatActivity {
     private StorageReference storageProfilePictureReference;
     private String checker = "";
     Users users;
+    private String imageurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +73,7 @@ public class MyAccountFragment extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-
                 finish();
-
             }
         });
 
@@ -91,9 +90,7 @@ public class MyAccountFragment extends AppCompatActivity {
                 }
                 else
                 {
-
-                    updateOnlyUserInfo();
-
+                    userInfoSavedWithoutImage();
                 }
 
             }
@@ -123,6 +120,7 @@ public class MyAccountFragment extends AppCompatActivity {
         users.setAddress(addressEditText.getText().toString().trim());
         users.setPhone(userPhoneEditText.getText().toString().trim());
         users.setPassword(passwordEditText.getText().toString().trim());
+        users.setImage(imageurl);
 
         ref.child(Prevalent.CurrentOnlineUser.getPhone()).setValue(users);
 
@@ -153,6 +151,40 @@ public class MyAccountFragment extends AppCompatActivity {
             startActivity(new Intent(MyAccountFragment.this, MyAccountFragment.class));
             finish();
         }
+    }
+
+    private void userInfoSavedWithoutImage()
+    {
+
+        if(TextUtils.isEmpty(fullNameEditText.getText().toString()))
+        {
+            Toast.makeText(this, "User Name must be Entered", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(addressEditText.getText().toString()))
+        {
+            Toast.makeText(this, "Address must be Entered", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(userPhoneEditText.getText().toString()))
+        {
+            Toast.makeText(this, "Phone Number must be Entered", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(isValidPhone(userPhoneEditText.getText().toString())))
+        {
+            Toast.makeText(this, "Enter a Valid Phone Number", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(passwordEditText.getText().toString()))
+        {
+            Toast.makeText(this, "Password must be Entered", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(isValidPassword(passwordEditText.getText().toString())))
+        {
+            Toast.makeText(this, "Enter a Valid Password", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(checker.equals("clicked")))
+        {
+            updateOnlyUserInfo();
+        }
+
     }
 
     private void userInfoSaved()
@@ -277,6 +309,8 @@ public class MyAccountFragment extends AppCompatActivity {
                         String uphone = snapshot.child("phone").getValue().toString();
                         String uaddress = snapshot.child("address").getValue().toString();
 
+                        imageurl = uimage;
+
                         Picasso.get().load(uimage).into(profileImageView);
                         fullNameEditText.setText(uname);
                         passwordEditText.setText(upassword);
@@ -305,10 +339,7 @@ public class MyAccountFragment extends AppCompatActivity {
     public static boolean isValidPassword(String password)
     {
 
-        String regex = "^(?=.*[0-9])"
-                + "(?=.[a-z])(?=.[A-Z])"
-                + "(?=.*[@#$%^&+=])"
-                + "(?=\\S+$).{8,20}$";
+        String regex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
 
         Pattern p = Pattern.compile(regex);
 
