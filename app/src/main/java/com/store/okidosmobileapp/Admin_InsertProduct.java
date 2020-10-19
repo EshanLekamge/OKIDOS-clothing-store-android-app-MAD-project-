@@ -188,7 +188,15 @@ public class Admin_InsertProduct extends AppCompatActivity {
         }
         else
         {
-            StoreProductInformation();
+            boolean value = validateGender(pgender);
+            if(value == true)
+            {
+                StoreProductInformation();
+            }
+            else
+            {
+                Toast.makeText(this, "Enter Male or Female as gender", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 
@@ -266,6 +274,22 @@ public class Admin_InsertProduct extends AppCompatActivity {
         });
 
     }
+
+    public static boolean validateGender(String gender)
+    {
+        if(gender.equals("Male"))
+        {
+            return true;
+        }
+        else if(gender.equals("Female"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
     private void SaveProductInfoToDatabase()
     {

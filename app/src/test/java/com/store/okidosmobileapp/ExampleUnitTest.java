@@ -59,5 +59,11 @@ public class ExampleUnitTest {
         assertEquals(true,result);
     }
 
+    @Test
+    public void isValidateGender()
+    {
+        Boolean result = admin_insertProduct.validateGender("Male");
+        assertEquals(true,result);
+    }
 
 }
